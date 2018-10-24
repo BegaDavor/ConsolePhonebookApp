@@ -9,11 +9,11 @@ import bega.DTO.Users;
 public interface ContactsDAOInterface {
 	
 	public ArrayList<Contacts> getConctacts(Users user) throws SQLException;
-	public Contacts getContactByName(String firstname) throws SQLException;
-	public Contacts getContactByLastname(String lastname) throws SQLException;
-	public void addContact(Contacts contact) throws SQLException;
-	public void updateContact(Contacts contact) throws SQLException;
-	public void deleteContact(Contacts contact) throws SQLException;
+	public ArrayList<Contacts> getContactByName(String firstname) throws SQLException;
+	public ArrayList<Contacts> getContactByLastname(String lastname) throws SQLException;
+	public void addContact(Contacts contact, Users user) throws SQLException;
+	public void updateContact(Contacts contact, Users user) throws SQLException;
+	public void deleteContact(Contacts contact, Users user) throws SQLException;
 	
 	
 
