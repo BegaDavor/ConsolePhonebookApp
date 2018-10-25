@@ -29,7 +29,7 @@ public class ContactsDAOImplementation implements ContactsDAOInterface{
 			rs = statement.executeQuery();
 			
 			while(rs.next()) {
-				contacts.add(new Contacts(rs.getString("firstname"), rs.getString("lastname"), rs.getString("city"), rs.getString("email"), rs.getString("phonenumber"), rs.getInt("userID")));
+				contacts.add(new Contacts(rs.getInt("contactID"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("city"), rs.getString("email"), rs.getString("phonenumber"), rs.getInt("userID")));
 			}
 		}
 		
@@ -37,23 +37,24 @@ public class ContactsDAOImplementation implements ContactsDAOInterface{
 	}
 
 	@Override
-	public ArrayList<Contacts> getContactByName(String firstname) throws SQLException {
+	public ArrayList<Contacts> getContactByName(String firstname, Users user) throws SQLException {
 		// TODO Auto-generated method stub
 		
 		ArrayList<Contacts> contacts = new ArrayList<>();
 		
-		String query = "SELECT * FROM contacts WHERE firstname = ?";
+		String query = "SELECT * FROM contacts WHERE firstname = ? AND userID = ?";
 		
 		ResultSet rs = null;
 		
 		try(PreparedStatement statement = connection.prepareStatement(query);){
 			statement.setString(1, firstname);
+			statement.setInt(2, user.getUserID());
 			
 			rs = statement.executeQuery();
 			
 			while (rs.next()) {
 				
-				contacts.add(new Contacts(rs.getString("firstname"), rs.getString("lastname"), rs.getString("city"), rs.getString("email"), rs.getString("phonenumber"), rs.getInt("userID")));
+				contacts.add(new Contacts(rs.getInt("contactID") ,rs.getString("firstname"), rs.getString("lastname"), rs.getString("city"), rs.getString("email"), rs.getString("phonenumber"), rs.getInt("userID")));
 				
 			}
 		}
@@ -62,21 +63,22 @@ public class ContactsDAOImplementation implements ContactsDAOInterface{
 	}
 
 	@Override
-	public ArrayList<Contacts> getContactByLastname(String lastname) throws SQLException {
+	public ArrayList<Contacts> getContactByLastname(String lastname, Users user) throws SQLException {
 ArrayList<Contacts> contacts = new ArrayList<>();
 		
-		String query = "SELECT * FROM contacts WHERE lastname = ?";
+		String query = "SELECT * FROM contacts WHERE lastname = ? AND userID = ?";
 		
 		ResultSet rs = null;
 		
 		try(PreparedStatement statement = connection.prepareStatement(query);){
 			statement.setString(1, lastname);
+			statement.setInt(2, user.getUserID());
 			
 			rs = statement.executeQuery();
 			
 			while (rs.next()) {
 				
-				contacts.add(new Contacts(rs.getString("firstname"), rs.getString("lastname"), rs.getString("city"), rs.getString("email"), rs.getString("phonenumber"), rs.getInt("userID")));
+				contacts.add(new Contacts(rs.getInt("contactID") ,rs.getString("firstname"), rs.getString("lastname"), rs.getString("city"), rs.getString("email"), rs.getString("phonenumber"), rs.getInt("userID")));
 				
 			}
 		}
@@ -88,7 +90,7 @@ ArrayList<Contacts> contacts = new ArrayList<>();
 	public void addContact(Contacts contact, Users user) throws SQLException {
 		// TODO Auto-generated method stub
 		
-		String query = "INSERT INTO contacts(firstname, last name, city, email, phonenumber,  userID) VALUES (?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO contacts(firstname, lastname, city, email, phonenumber,  userID) VALUES (?, ?, ?, ?, ?, ?)";
 		
 		try(PreparedStatement statement = connection.prepareStatement(query);){
 			statement.setString(1, contact.getFirstname());
@@ -146,6 +148,28 @@ ArrayList<Contacts> contacts = new ArrayList<>();
 			}
 		}
 		
+	}
+
+	@Override
+	public Contacts getContactbyID(int contactID, Users user) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		Contacts contact = null;
+		String query = "SELECT * FROM contacts WHERE contactID = ? AND userID = ?";
+		ResultSet rs = null;
+		
+		try(PreparedStatement statement = connection.prepareStatement(query);){
+			statement.setInt(1, contactID);
+			statement.setInt(2, user.getUserID());
+			
+			rs = statement.executeQuery();
+			
+			if (rs.next()) {
+				contact = new Contacts(rs.getInt("contactID") ,rs.getString("firstname"), rs.getString("lastname"), rs.getString("city"), rs.getString("email"), rs.getString("phonenumber"), rs.getInt("userID"));
+			}
+		}
+		
+		return contact;
 	}
 	
 	

@@ -28,7 +28,7 @@ public class UsersDAOImplementation implements UsersDAOInterface{
 			rs = statement.executeQuery();
 			
 			if(rs.next()) {
-				user = new Users(rs.getString("username"), rs.getString("password"));
+				user = new Users(rs.getInt("userID"), rs.getString("username"), rs.getString("password"));
 				rs.close();
 			}
 		}

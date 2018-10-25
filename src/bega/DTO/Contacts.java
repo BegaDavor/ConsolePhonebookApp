@@ -25,6 +25,18 @@ public class Contacts {
 		
 	}
 	
+public Contacts(int contactID, String firstname, String lastname, String city, String email, String phonenumber, int userID) {
+		
+		this.contactID = contactID;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.city = city;
+		this.email = email;
+		this.phonenumber = phonenumber;
+		this.userID = userID;
+		
+	}
+	
 	//getters and setters
 
 	public int getContactID() {
