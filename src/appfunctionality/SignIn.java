@@ -2,6 +2,7 @@ package appfunctionality;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -66,9 +67,11 @@ public class SignIn {
 		password = input.next();
 
 		UsersDAOImplementation signIn = new UsersDAOImplementation();
-
+		try {
 		user = signIn.getUserByUsername(username);
-
+		}catch(NullPointerException e) {
+			return false;
+		}
 		if (decrypt("EID1703143825104", "RandomInitVector", user.getPassword()).equals(password)) {
 			return true;
 		} else {
@@ -210,7 +213,6 @@ public class SignIn {
 
 					System.out.println("Your all contacts: ");
 					ArrayList<Contacts> contacts = impl3.getConctacts(user);
-
 					for (Contacts contact : contacts) {
 						System.out.println(contact.toString());
 					}
@@ -259,8 +261,13 @@ public class SignIn {
 
 			} while (option != 0);
 		} else {
-			System.out.println("You are not registred, sign up now: ");
+			System.out.println("You are not registred, do you want to sign up now? (1 - yes, press any number for no) ");
+			int validation = isInteger();
+			if(validation == 1) {
 			SignUp.register();
+			}else {
+			Run.run();
+			}
 		}
 	}
 

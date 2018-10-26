@@ -28,10 +28,16 @@ public class Run {
 		option = isInteger();
 		
 		switch (option) {
+		case 0:
+			break;
 		case 1:
 			SignUp.register();
+			break;
 		case 2:
 			SignIn.options();
+			break;
+		default:
+			System.out.println("Wrong input!");
 		}
 		
 		}while (option != 0);
